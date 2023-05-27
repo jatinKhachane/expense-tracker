@@ -10,8 +10,14 @@ function Expenses(props) {
 
   const saveCurrentFilterYear = (year) => {
     setFilteredYear(year);
-    console.log("from Expenses:", year, filteredYear);
   };
+
+  //filter the expenses -- note don't filter the original props.item which is coming from Apps.js
+  //.filter -- It doesn't alters the original array
+  //we dont want to update the actual list just because filtering
+  const filteredList = props.items.filter(
+    (item) => item.date.getFullYear().toString() === filteredYear
+  );
 
   return (
     <div className="expenses">
@@ -21,7 +27,7 @@ function Expenses(props) {
       />
       {/* rendering the expenses data dynamically -- adding Expense react component per expense object in JSX */}
       <Card className="expenses">
-        {props.items.map((expense) => (
+        {filteredList.map((expense) => (
           <ExpenseItem
             key={expense.id}
             title={expense.title}
